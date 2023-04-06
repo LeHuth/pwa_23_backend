@@ -106,4 +106,19 @@ const updateUser = async (req: Request, res: Response) => {
 
 }
 
-export default {register, login, placeholder, getAllUsers, getUserByUsername, updateUser};
+const deleteUser = async (req: Request, res: Response) => {
+    /*make sure user is admin or same user if not abort - check via jwt*/
+    try {
+        const username = req.params.username;
+        if(!username) {
+            res.status(400).send("Username is not defined");
+            return;
+        }
+        const user = await UserModel.findOneAndDelete({username:username});
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(500).send({error: `User ${req.params.username} could not be deleted`});
+    }
+}
+
+export default {register, login, placeholder, getAllUsers, getUserByUsername, updateUser, deleteUser};

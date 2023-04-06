@@ -3,6 +3,12 @@ import UserModel from "./UserModel";
 import jwt from "jsonwebtoken";
 import * as process from "process";
 
+interface existingUser {
+    username: string;
+    password: string;
+
+}
+
 const register = async (req: Request, res: Response) => {
     if(!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined");
@@ -87,9 +93,17 @@ const getUserByUsername = async (req: Request, res: Response) => {
 
 const updateUser = async (req: Request, res: Response) => {
     /*make sure jwt ist valid or user is admin also via jwt if not abort*/
+    try{
+        if(!req.body){
+            res.status(400).send({error: `User ${req.params.username} could not be updated`});
+        }
+        const user = await UserModel.findOneAndUpdate({username:req.params.username},{...req.body}, {new:true} ).select("-password");
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(500).send({error: `User ${req.params.username} could not be updated`});
+    }
 
-    const user = await UserModel.findOneAndUpdate({username:req.params.username},...req.body).select("-password");
 
 }
 
-export default {register, login, placeholder, getAllUsers, getUserByUsername};
+export default {register, login, placeholder, getAllUsers, getUserByUsername, updateUser};

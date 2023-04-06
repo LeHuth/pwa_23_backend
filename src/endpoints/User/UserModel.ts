@@ -1,5 +1,6 @@
 import mongoose, {Model, Schema} from "mongoose";
 import bcrypt from "bcryptjs";
+
 interface IUser {
     username: String;
     password: String;
@@ -15,7 +16,7 @@ interface IUserMethods {
 }
 type UserModel = Model<IUser,{},IUserMethods>
 
-const UserSchema :Schema = new mongoose.Schema<IUser,UserModel,IUserMethods>({
+const UserSchema : Schema = new mongoose.Schema<IUser,UserModel,IUserMethods>({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },

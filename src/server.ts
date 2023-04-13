@@ -6,12 +6,14 @@ import jwt from "jsonwebtoken";
 import UserModel from "./endpoints/User/UserModel";
 import UserRoutes from "./endpoints/User/UserRoutes";
 import * as process from "process";
+import RecipeRoutes from "./endpoints/Recipe/RecipeRoutes";
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/users', UserRoutes);
+app.use('/api/recipes', RecipeRoutes);
 
 async function createAdminUser() {
     try {

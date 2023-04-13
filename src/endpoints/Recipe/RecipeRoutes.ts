@@ -5,7 +5,8 @@ const router:Router = Router();
 
 
 // @ts-ignore
-router.get('/',authenticate ,RecipeController.placeholder);
-router.post('/create', RecipeController.createRecipe);
+router.get('/' ,RecipeController.placeholder);
+// @ts-ignore
+router.post('/create',authenticate, RecipeController.createRecipe);
 
 export default router;

@@ -61,9 +61,9 @@ const login = async (req: Request, res: Response) => {
             return;
         }
 
-        const token = jwt.sign({ id: existingUser._id, username: existingUser.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: existingUser._id, username: existingUser.username }, process.env.JWT_SECRET, { expiresIn: '1m' });
 
-        res.status(201).json({ token });
+        res.status(200).json({ token, existingUser });
     } catch (error) {
         res.status(500).json({ message: error });
     }
